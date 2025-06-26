@@ -1,0 +1,27 @@
+<h2>Job Applications</h2>
+<table border="1" *ngIf="applications$ | async as applications; else loading">
+  <thead>
+    <tr>
+      <th>Company</th>
+      <th>Position</th>
+      <th>Status</th>
+      <th>Date Applied</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let app of applications">
+      <td>{{ app.companyName }}</td>
+      <td>{{ app.position }}</td>
+      <td>
+        <select [(ngModel)]="app.status" (change)="onStatusChange(app, app.status)">
+          <option *ngFor="let s of status" [value]="s">{{ s }}</option>
+        </select>
+      </td>
+      <td>{{ app.dateApplied | date }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #loading>
+  <p>Loading applications...</p>
+</ng-template>

@@ -1,0 +1,21 @@
+<h2>Add Job Application</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <label>Company Name:</label>
+  <input formControlName="companyName" required />
+  <br />
+  <label>Position:</label>
+  <input formControlName="position" required />
+  <br />
+  <label>Status:</label>
+  <select formControlName="status">
+    <option>Applied</option>
+    <option>Interview</option>
+    <option>Offer</option>
+    <option>Rejected</option>
+  </select>
+  <br />
+  <label>Date Applied:</label>
+  <input type="date" formControlName="dateApplied" />
+  <br />
+  <button type="submit">Submit</button>
+</form>
