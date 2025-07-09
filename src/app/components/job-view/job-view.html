@@ -1,0 +1,16 @@
+<h2>Job Application</h2>
+@if (jobApplication$ | async; as job) {
+    <label>Company Name :</label>
+    <label>{{ job.companyName }}</label>
+    <br/>
+    <label>Position :</label>
+    <label>{{ job.position }}</label>
+    <br/>
+    <label>Status :</label>
+    <label>{{ job.status }}</label>
+    <br/>
+    <label>Date Applied :</label>
+    <label>{{ job.dateApplied }}</label>
+    <br/>
+    <button (click)="onDelete()">Delete</button>
+}

@@ -23,9 +23,11 @@ constructor(private formBuilder: FormBuilder, private jobApplicationService: Job
 submit() {
   if(this.form.valid) {
     this.jobApplicationService.addJobApplication(this.form.value).subscribe(() => {
-      alert('Application Success!!!');
+      alert('Application Added Successfully!!!');
       this.form.reset();
     });
+  } else {
+    alert('Invalid Application');
   }
 }
 
