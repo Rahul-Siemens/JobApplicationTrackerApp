@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { JobApplicationServices } from '../../services/job-application-services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-form',
@@ -11,7 +12,7 @@ import { JobApplicationServices } from '../../services/job-application-services'
 export class JobForm {
 form: FormGroup;
 
-constructor(private formBuilder: FormBuilder, private jobApplicationService: JobApplicationServices) {
+constructor(private formBuilder: FormBuilder, private jobApplicationService: JobApplicationServices, private router: Router) {
   this.form = this.formBuilder.group({
     companyName: ['', Validators.required],
     position: ['', Validators.required],
@@ -25,6 +26,7 @@ submit() {
     this.jobApplicationService.addJobApplication(this.form.value).subscribe(() => {
       alert('Application Added Successfully!!!');
       this.form.reset();
+      this.router.navigate(['/']);
     });
   } else {
     alert('Invalid Application');

@@ -1,4 +1,4 @@
-import { Routes, withComponentInputBinding } from '@angular/router';
+import { Routes } from '@angular/router';
 import { JobList } from './components/job-list/job-list';
 import { JobForm } from './components/job-form/job-form';
 import { JobView } from './components/job-view/job-view';

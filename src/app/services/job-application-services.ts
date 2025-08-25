@@ -7,7 +7,7 @@ import { JobApplicationModel } from '../models/job-application-model';
   providedIn: 'root'
 })
 export class JobApplicationServices {
-  private apiUrl = 'http://localhost:5082/applications';
+  private apiUrl = 'http://192.168.8.69:5082/applications';
 
   constructor(private http: HttpClient) {
   }
@@ -26,5 +26,9 @@ export class JobApplicationServices {
 
   updateJobApplication(application: JobApplicationModel): Observable<void>{
     return this.http.put<void>(`${this.apiUrl}/${application.id}`,application);
+  }
+
+  deleteJobApplication(id: number): Observable<void>{
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

@@ -1,9 +1,9 @@
-import { Component, effect, Input, input, OnInit } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { JobApplicationModel } from '../../models/job-application-model';
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { JobApplicationServices } from '../../services/job-application-services';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-job-view',
@@ -16,7 +16,7 @@ export class JobView {
   readonly id = input<number>();
   jobApplication$: Observable<JobApplicationModel>;
 
-  constructor(private jobApplicationService: JobApplicationServices) {
+  constructor(private jobApplicationService: JobApplicationServices, private router: Router) {
     
     effect(() => {
       let appId = this.id();
@@ -28,7 +28,13 @@ export class JobView {
   }
 
   onDelete() {
-    alert("Job deleted.");
+    let appId = this.id();
+      if(appId) {
+        this.jobApplicationService.deleteJobApplication(appId).subscribe(() => {
+          alert("Deleted successfully!");
+          this.router.navigate(['/']);
+        });
+      }
   }
 
 }
