@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +10,12 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
+  auth = inject(AuthService)
+  router = inject(Router)
   protected title = 'job-application-tracker-app';
+
+  onLogOut() {
+    this.auth.logout();
+    this.router.navigate(['/']);
+  }
 }

@@ -32,7 +32,7 @@ export class JobView {
       if(appId) {
         this.jobApplicationService.deleteJobApplication(appId).subscribe(() => {
           alert("Deleted successfully!");
-          this.router.navigate(['/']);
+          this.router.navigate(['/app']);
         });
       }
   }

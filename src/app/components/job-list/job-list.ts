@@ -4,17 +4,17 @@ import { JobApplicationServices } from '../../services/job-application-services'
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-job-list',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterModule],
   templateUrl: './job-list.html',
   styleUrl: './job-list.css'
 })
 export class JobList {
-  status = ['Applied', 'Applied', 'Interview', 'Offer', 'Rejected'];
+  status = ['Applied', 'Interview', 'Offer', 'Rejected'];
   applications$: Observable<JobApplicationModel[]>;
   private router = inject(Router);
 

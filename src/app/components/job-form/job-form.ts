@@ -26,7 +26,7 @@ submit() {
     this.jobApplicationService.addJobApplication(this.form.value).subscribe(() => {
       alert('Application Added Successfully!!!');
       this.form.reset();
-      this.router.navigate(['/']);
+      this.router.navigate(['/app']);
     });
   } else {
     alert('Invalid Application');
