@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,8 @@ import { BehaviorSubject, tap } from 'rxjs';
 export class AuthService {
 private apiUrl = 'http://192.168.8.69:5082/auth';
 private tokenKey = 'jwtToken';
-isLoggedIn$ = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
+private isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
+isLoggedIn$ = this.isLoggedIn.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +22,14 @@ isLoggedIn$ = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey)
     .pipe(
       tap(res => {
           localStorage.setItem(this.tokenKey, res.token);
-          this.isLoggedIn$.next(true);
+          this.isLoggedIn.next(true);
       })
     )
   }
 
   logout() {
     localStorage.removeItem(this.tokenKey);
-    this.isLoggedIn$.next(false);
+    this.isLoggedIn.next(false);
   }
 
   getToken() {
