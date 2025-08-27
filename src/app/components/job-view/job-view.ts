@@ -1,40 +1,42 @@
-import { Component, effect, input } from '@angular/core';
+import { Component, effect, inject, input } from '@angular/core';
 import { JobApplicationModel } from '../../models/job-application-model';
-import { Observable } from 'rxjs';
-import { JobApplicationServices } from '../../services/job-application-services';
+import { filter, from, map, mergeMap, Observable, take, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { JobApplicationFacade } from '../../services/job-application.facade';
 
 @Component({
   selector: 'app-job-view',
   imports: [CommonModule],
   templateUrl: './job-view.html',
   styleUrl: './job-view.css',
-  standalone: true
+  standalone: true,
 })
 export class JobView {
-  readonly id = input<number>();
-  jobApplication$: Observable<JobApplicationModel>;
+  private facade = inject(JobApplicationFacade);
+  jobApplication$: Observable<JobApplicationModel | undefined>;
 
-  constructor(private jobApplicationService: JobApplicationServices, private router: Router) {
-    
-    effect(() => {
-      let appId = this.id();
-      if(appId) {
-        this.jobApplication$ = this.jobApplicationService.getJobApplicationById(appId);
-      }
-    })
-    
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    const appId = Number(this.route.snapshot.paramMap.get('id'));
+    if (appId) {
+      this.jobApplication$ = this.facade.applications$.pipe(
+        mergeMap((apps) => from(apps)),
+        filter((app) => app.id === appId),
+        take(1)
+      );
+    }
   }
 
   onDelete() {
-    let appId = this.id();
-      if(appId) {
-        this.jobApplicationService.deleteJobApplication(appId).subscribe(() => {
-          alert("Deleted successfully!");
-          this.router.navigate(['/app']);
-        });
-      }
+    const appId = Number(this.route.snapshot.paramMap.get('id'));
+    if (appId) {
+      this.facade.deleteApplication(appId).subscribe(() => {
+        alert('Deleted successfully!');
+        this.router.navigate(['/app']);
+      });
+    }
   }
-
 }

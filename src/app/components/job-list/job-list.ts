@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { JobApplicationModel } from '../../models/job-application-model';
-import { JobApplicationServices } from '../../services/job-application-services';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
+import { JobApplicationFacade } from '../../services/job-application.facade';
 
 @Component({
   selector: 'app-job-list',
@@ -16,15 +16,17 @@ import { Router, RouterModule } from '@angular/router';
 export class JobList {
   status = ['Applied', 'Interview', 'Offer', 'Rejected'];
   applications$: Observable<JobApplicationModel[]>;
+  private facade = inject(JobApplicationFacade);
   private router = inject(Router);
 
-  constructor(private jobApplicationService: JobApplicationServices) {
-    this.applications$ = this.jobApplicationService.getAllJobApplications();
+  constructor() {
+    this.applications$ = this.facade.applications$;
+    this.facade.loadApplications();
   }
 
   onStatusChange(application: JobApplicationModel, status: string) {
     application.status = status;
-    this.jobApplicationService.updateJobApplication(application).subscribe();
+    this.facade.updateApplication(application);
   }
 
   navigateToView(id: number) {

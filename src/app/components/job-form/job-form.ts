@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { JobApplicationServices } from '../../services/job-application-services';
 import { Router } from '@angular/router';
+import { JobApplicationFacade } from '../../services/job-application.facade';
 
 @Component({
   selector: 'app-job-form',
@@ -11,8 +11,9 @@ import { Router } from '@angular/router';
 })
 export class JobForm {
 form: FormGroup;
+private facade = inject(JobApplicationFacade);
 
-constructor(private formBuilder: FormBuilder, private jobApplicationService: JobApplicationServices, private router: Router) {
+constructor(private formBuilder: FormBuilder, private router: Router) {
   this.form = this.formBuilder.group({
     companyName: ['', Validators.required],
     position: ['', Validators.required],
@@ -23,7 +24,7 @@ constructor(private formBuilder: FormBuilder, private jobApplicationService: Job
 
 submit() {
   if(this.form.valid) {
-    this.jobApplicationService.addJobApplication(this.form.value).subscribe(() => {
+    this.facade.addApplication(this.form.value).subscribe(() => {
       alert('Application Added Successfully!!!');
       this.form.reset();
       this.router.navigate(['/app']);
