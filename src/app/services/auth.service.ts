@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-private apiUrl = 'http://192.168.8.69:5082/auth';
+private apiUrl = 'http://192.168.29.89:5082/auth';
 private tokenKey = 'jwtToken';
 private isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem(this.tokenKey));
 isLoggedIn$ = this.isLoggedIn.asObservable();

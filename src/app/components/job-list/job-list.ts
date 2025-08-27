@@ -36,4 +36,14 @@ export class JobList {
   cancelNavigateToView(e: MouseEvent) {
     e.stopPropagation();
   }
+
+  deleteApplication(id: number, event: MouseEvent) {
+    event.stopPropagation();
+    if (confirm('Are you sure you want to delete this application?')) {
+      this.jobApplicationService.deleteJobApplication(id).subscribe(() => {
+        // Refresh the applications list
+        this.applications$ = this.jobApplicationService.getAllJobApplications();
+      });
+    }
+  }
 }
