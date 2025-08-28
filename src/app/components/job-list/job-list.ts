@@ -36,4 +36,11 @@ export class JobList {
   cancelNavigateToView(e: MouseEvent) {
     e.stopPropagation();
   }
+
+  deleteApplication(id: number, event: MouseEvent) {
+    event.stopPropagation();
+    if (confirm('Are you sure you want to delete this application?')) {
+      this.facade.deleteApplication(id).subscribe();
+    }
+  }
 }

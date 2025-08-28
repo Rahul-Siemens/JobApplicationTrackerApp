@@ -1,16 +1,59 @@
-<h2>Job Application</h2>
-@if (jobApplication$ | async; as job) {
-    <label>Company Name :</label>
-    <label>{{ job.companyName }}</label>
-    <br/>
-    <label>Position :</label>
-    <label>{{ job.position }}</label>
-    <br/>
-    <label>Status :</label>
-    <label>{{ job.status }}</label>
-    <br/>
-    <label>Date Applied :</label>
-    <label>{{ job.dateApplied }}</label>
-    <br/>
-    <button (click)="onDelete()">Delete</button>
-}
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow">
+      <div class="card-header bg-secondary text-white text-center">
+        <h3 class="card-title mb-0">Job Application Details</h3>
+      </div>
+      <div class="card-body">
+        @if (jobApplication$ | async; as job) {
+          <div class="row mb-3">
+            <div class="col-sm-4 fw-bold">Company Name:</div>
+            <div class="col-sm-8">{{ job.companyName }}</div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-sm-4 fw-bold">Position:</div>
+            <div class="col-sm-8">{{ job.position }}</div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-sm-4 fw-bold">Status:</div>
+            <div class="col-sm-8">
+              <span class="badge" 
+                    [ngClass]="{
+                      'bg-primary': job.status === 'Applied',
+                      'bg-warning': job.status === 'Interview',
+                      'bg-success': job.status === 'Offer',
+                      'bg-danger': job.status === 'Rejected'
+                    }">
+                {{ job.status }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="row mb-4">
+            <div class="col-sm-4 fw-bold">Date Applied:</div>
+            <div class="col-sm-8">{{ job.dateApplied | date:'mediumDate' }}</div>
+          </div>
+          
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button class="btn btn-outline-secondary me-md-2" (click)="onBackToList()">
+              <i class="bi bi-arrow-left"></i> Back to List
+            </button>
+            <button class="btn btn-danger" (click)="onDelete()">
+              <i class="bi bi-trash"></i> Delete Application
+            </button>
+          </div>
+        }
+        @else {
+          <div class="text-center">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-2">Loading application details...</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

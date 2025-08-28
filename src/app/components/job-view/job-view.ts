@@ -39,4 +39,8 @@ export class JobView {
       });
     }
   }
+
+  onBackToList() {
+    this.router.navigate(['/app']);
+  }
 }
